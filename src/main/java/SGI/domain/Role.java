@@ -1,14 +1,14 @@
-package SGI.dto;
+package SGI.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.validator.constraints.UUID;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "project_member")
+@Table(name = "roles")
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +22,11 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name", nullable = false)
     @Setter(AccessLevel.NONE)
-    private roleName roleName;
+    private RoleName roleName;
+
+    @Column(nullable = false)
+    private String description;
+
+    @OneToMany(mappedBy = "role")
+    private List<ProjectMember> projectMembers = new ArrayList<>();
 }

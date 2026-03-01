@@ -1,4 +1,4 @@
-package SGI.dto;
+package SGI.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,8 +14,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "project_member", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "{id_project, id_user}")
+@Table(name = "project_members", uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_project_member_project_user",
+                columnNames = {"id_project, id_user"}
+        )
 })
 @Getter @Setter
 @AllArgsConstructor
@@ -29,17 +32,17 @@ public class ProjectMember {
 
     @ManyToOne
     @JoinColumn(name = "id_project", nullable = false)
-    private Project idProject;
+    private Project project;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User idUser;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "id_role", nullable = false)
-    private Role idRole;
+    private Role role;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime joinedAt;
+    private LocalDateTime createdAt;
 }
