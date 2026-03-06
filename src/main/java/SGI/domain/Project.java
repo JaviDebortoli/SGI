@@ -28,10 +28,10 @@ public class Project {
     private UUID idProject;
 
     @Column(nullable = false)
-    private String name;
+    private String projectName;
 
     @Column(nullable = false)
-    private String description;
+    private String projectDescription;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -23,7 +23,7 @@ public class Issue {
     private String title;
 
     @Column(nullable = false)
-    private String description;
+    private String issueDescription;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

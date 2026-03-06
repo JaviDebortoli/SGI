@@ -25,7 +25,7 @@ public class Role {
     private RoleName roleName;
 
     @Column(nullable = false)
-    private String description;
+    private String roleDescription;
 
     @OneToMany(mappedBy = "role")
     private List<ProjectMember> projectMembers = new ArrayList<>();
