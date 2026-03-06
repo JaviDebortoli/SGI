@@ -33,7 +33,7 @@ public class StatusHistory {
     private IssueStatus newStatus;
 
     @LastModifiedDate
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @ManyToOne

@@ -1,4 +1,9 @@
 package SGI.dto.issue;
 
-public class IssueStatusUpdateDto {
-}
+import SGI.domain.IssueStatus;
+import jakarta.validation.constraints.NotNull;
+
+public record IssueStatusUpdateDto (
+        @NotNull(message = "El estado es obligatorio.")
+        IssueStatus status
+) {}

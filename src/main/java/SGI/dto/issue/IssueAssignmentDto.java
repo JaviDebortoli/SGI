@@ -1,4 +1,9 @@
 package SGI.dto.issue;
 
-public class IssueAssignmentDto {
-}
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.UUID;
+
+public record IssueAssignmentDto (
+        @NotNull(message = "El usuario es requerido")
+        UUID assigneeId
+) {}

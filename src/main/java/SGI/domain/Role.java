@@ -24,7 +24,7 @@ public class Role {
     @Setter(AccessLevel.NONE)
     private RoleName roleName;
 
-    @Column(nullable = false)
+    @Column(name = "role_description", nullable = false)
     private String roleDescription;
 
     @OneToMany(mappedBy = "role")
