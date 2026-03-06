@@ -9,7 +9,6 @@ public record UserResponseDto (
         UUID idUser,
         String userName,
         String email,
-        String password,
         Boolean enabled,
         LocalDateTime createdAt
 ) {
@@ -18,7 +17,6 @@ public record UserResponseDto (
                 user.getIdUser(),
                 user.getUserName(),
                 user.getEmail(),
-                user.getPassword(),
                 user.isEnabled(),
                 user.getCreatedAt()
         );

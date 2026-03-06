@@ -40,15 +40,15 @@ public class Issue {
     @Setter(AccessLevel.NONE)
     private IssueType type;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_project", nullable = false)
     private Project project;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user_reporter", nullable = false)
     private User reporter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user_assignee", nullable = false)
     private User assignee;
 

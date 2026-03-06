@@ -9,12 +9,12 @@ import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
 public record IssueCreateDto (
-        @NotBlank(message = "El nombre de usuario es obligatorio.")
+        @NotBlank(message = "El titulo es obligatorio.")
         @Size(min = 3, max = 20, message = "Debe tener de 3 a 20 caracteres.")
         String title,
 
-        @NotBlank(message = "El nombre de usuario es obligatorio.")
-        @Size(min = 3, max = 200, message = "Debe tener de 3 a 20 caracteres.")
+        @NotBlank(message = "La descripción es obligatoria.")
+        @Size(min = 3, max = 200, message = "Debe tener de 3 a 200 caracteres.")
         String issueDescription,
 
         @NotNull(message = "La prioridad es obligatoria.")

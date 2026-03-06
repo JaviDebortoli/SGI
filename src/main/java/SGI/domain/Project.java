@@ -41,8 +41,8 @@ public class Project {
     boolean active;
 
     @OneToMany(mappedBy = "project")
-    private List<Issue> Issues = new ArrayList<>();
+    private List<Issue> issues = new ArrayList<>();
 
     @OneToMany(mappedBy = "project")
-    private List<ProjectMember> ProjectMembers = new ArrayList<>();
+    private List<ProjectMember> projectMembers = new ArrayList<>();
 }
