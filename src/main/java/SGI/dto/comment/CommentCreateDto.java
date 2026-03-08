@@ -11,9 +11,6 @@ public record CommentCreateDto (
         @Size(min = 3, max = 200, message = "Debe tener entre 3 y 200 caracteres.")
         String content,
 
-        @NotNull(message = "La incidencia es obligatoria.")
-        UUID idIssue,
-
         @NotNull(message = "El usuario es obligatorio.")
         UUID idUser
 ) {}
