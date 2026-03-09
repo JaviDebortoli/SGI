@@ -24,7 +24,5 @@ public record UserUpdateDto (
                 regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).+$",
                 message = "La contraseña debe contener una mayúscula, una minúscula, un número y un caracter especial"
         )
-        String password,
-
-        Boolean enabled
+        String password
 ) {}
