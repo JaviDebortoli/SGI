@@ -10,7 +10,5 @@ public record ProjectUpdateDto (
 
         @NotBlank(message = "La descripción es obligatoria.")
         @Size(min = 3, max = 200, message = "Debe tener de 3 a 200 caracteres.")
-        String projectDescription,
-
-        Boolean active
+        String projectDescription
 ) {}

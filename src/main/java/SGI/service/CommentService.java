@@ -46,7 +46,7 @@ public class CommentService {
 
     public List<CommentResponseDto> getCommentsForIssue(UUID issueId) {
         // Retornar todos los Comments de un Issue
-        return commentRepository.findByIssueId(issueId)
+        return commentRepository.findByIssueIdIssue(issueId)
                 .stream()
                 .map(CommentResponseDto::toCommentResponseDto)
                 .toList();

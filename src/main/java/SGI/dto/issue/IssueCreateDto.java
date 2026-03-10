@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public record IssueCreateDto (
         @NotBlank(message = "El titulo es obligatorio.")
-        @Size(min = 3, max = 20, message = "Debe tener de 3 a 20 caracteres.")
+        @Size(min = 3, max = 100, message = "Debe tener de 3 a 100 caracteres.")
         String title,
 
         @NotBlank(message = "La descripción es obligatoria.")
@@ -22,9 +22,6 @@ public record IssueCreateDto (
 
         @NotNull(message = "El tipo es obligatorio.")
         IssueType type,
-
-        @NotNull(message = "El proyecto es obligatorio.")
-        UUID idProject,
 
         @NotNull(message = "El usuario es obligatorio.")
         UUID idUserReporter,

@@ -27,28 +27,26 @@ public class Issue {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Setter(AccessLevel.NONE)
     private IssuePriority priority;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Setter(AccessLevel.NONE)
-    private IssueStatus status;
+    private IssueStatus status = IssueStatus.OPEN;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Setter(AccessLevel.NONE)
     private IssueType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_project", nullable = false)
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_user_reporter", nullable = false)
     private User reporter;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_user_assignee", nullable = false)
     private User assignee;
 
@@ -57,4 +55,21 @@ public class Issue {
 
     @OneToMany(mappedBy = "issue")
     private List<StatusHistory> statusHistories = new ArrayList<>();
+
+    public void changeStatus(IssueStatus newStatus) {
+        // Validar que no sea null
+        if (newStatus == null) {
+            throw new IllegalArgumentException("Estado inválido");
+        }
+        // Validar que no sea el estado actual
+        if (this.status == newStatus) {
+            throw new IllegalArgumentException("El issue ya tiene ese estado");
+        }
+        // Validar la transicion
+        if (!this.status.canTransitionTo(newStatus)) {
+            throw new IllegalArgumentException("Transicion inválida de " + status + " a " + newStatus);
+        }
+        // Cambiar estado
+        this.status = newStatus;
+    }
 }

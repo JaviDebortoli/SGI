@@ -24,12 +24,10 @@ public class StatusHistory {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "previous_status", nullable = false)
-    @Setter(AccessLevel.NONE)
     private IssueStatus previousStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "new_status", nullable = false)
-    @Setter(AccessLevel.NONE)
     private IssueStatus newStatus;
 
     @LastModifiedDate
