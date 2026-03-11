@@ -6,11 +6,11 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.3</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>SGI</artifactId>
-	<version>0.1</version>
+	<version>1.0</version>
 	<name>SGI</name>
 	<description>Sistema de Gestión de Incidencias</description>
 	<url/>

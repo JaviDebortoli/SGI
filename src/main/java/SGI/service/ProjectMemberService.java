@@ -28,7 +28,7 @@ public class ProjectMemberService {
     private final RoleRepository roleRepository;
 
     @Transactional
-    public void assignUser (UUID projectId, ProjectMemberCreateDto projectMemberCreateDto) {
+    public ProjectMemberResponseDto assignUser (UUID projectId, ProjectMemberCreateDto projectMemberCreateDto) {
         // Encontrar proyecto
         Project project = projectRepository.findProjectByIdProjectAndActiveTrue(projectId)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -56,6 +56,8 @@ public class ProjectMemberService {
         projectMember.setActive(true);
         // Guardar asignación
         projectMemberRepository.save(projectMember);
+        // Retornar asignacion
+        return ProjectMemberResponseDto.toProjectMemberResponseDto(projectMember);
     }
 
     public List<ProjectMemberResponseDto> getAllProjectMembersFromProject(UUID projectId) {
@@ -71,7 +73,7 @@ public class ProjectMemberService {
     }
 
     @Transactional
-    public void updateRole (UUID projectId, UUID userId, ProjectMemberUpdateDto projectMemberUpdateDto) {
+    public ProjectMemberResponseDto updateRole (UUID projectId, UUID userId, ProjectMemberUpdateDto projectMemberUpdateDto) {
         // Verificar si existe el proyecto
         if(projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + projectId);
@@ -92,6 +94,8 @@ public class ProjectMemberService {
         ));
         // Actualizar el rol
         projectMember.setRole(role);
+        // Retornar asignación actualizada
+        return ProjectMemberResponseDto.toProjectMemberResponseDto(projectMember);
     }
 
     @Transactional

@@ -21,7 +21,7 @@ public class IssueService {
     private final ProjectMemberRepository projectMemberRepository;
 
     @Transactional
-    public void createIssue(UUID idProject, IssueCreateDto issueCreateDto) {
+    public IssueResponseDto createIssue(UUID idProject, IssueCreateDto issueCreateDto) {
         // Encontrar proyecto
         Project project = projectRepository.findProjectByIdProjectAndActiveTrue(idProject)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -48,9 +48,11 @@ public class IssueService {
         issue.setAssignee(assignee);
         // Guardar incidencia
         issueRepository.save(issue);
+        // Retornar incidencia creada
+        return IssueResponseDto.toIssueResponseDto(issue);
     }
 
-    public IssueResponseDto getIssue(UUID idIssue) {
+    public IssueResponseDto getIssueById (UUID idIssue) {
         // Encontrar la incidencia
         Issue issue = issueRepository.findByIdIssue(idIssue)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -93,7 +95,7 @@ public class IssueService {
     }
 
     @Transactional
-    public void updateIssue(UUID idIssue, IssueUpdateDto issueUpdateDto) {
+    public IssueResponseDto updateIssue(UUID idIssue, IssueUpdateDto issueUpdateDto) {
         // Encontrar la incidencia
         Issue issue = issueRepository.findByIdIssue(idIssue)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -103,10 +105,12 @@ public class IssueService {
         issue.setTitle(issueUpdateDto.title());
         issue.setPriority(issueUpdateDto.priority());
         issue.setType(issueUpdateDto.type());
+        // Retornar incidencia actualizada
+        return IssueResponseDto.toIssueResponseDto(issue);
     }
 
     @Transactional
-    public void updateStatus(UUID idIssue, UUID idUser, IssueStatusUpdateDto issueStatusUpdateDto) {
+    public IssueResponseDto updateStatus(UUID idIssue, UUID idUser, IssueStatusUpdateDto issueStatusUpdateDto) {
         // Encontrar la incidencia
         Issue issue = issueRepository.findByIdIssue(idIssue)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -126,10 +130,12 @@ public class IssueService {
         statusHistoryRepository.save(history);
         // Actualizar estado de la incidencia
         issue.changeStatus(issueStatusUpdateDto.status());
+        // Retornar incidencia con estado actualizado
+        return IssueResponseDto.toIssueResponseDto(issue);
     }
 
     @Transactional
-    public void updateAssignee(UUID idIssue, IssueAssignmentDto issueAssignmentDto) {
+    public IssueResponseDto updateAssignee(UUID idIssue, IssueAssignmentDto issueAssignmentDto) {
         // Encontrar usuario
         User assignee = userRepository.findByIdUserAndEnabledTrue(issueAssignmentDto.assigneeId())
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -150,5 +156,7 @@ public class IssueService {
         }
         // Actualizar incidencia
         issue.setAssignee(assignee);
+        // Retornar incidencia asignada/reasignada
+        return IssueResponseDto.toIssueResponseDto(issue);
     }
 }

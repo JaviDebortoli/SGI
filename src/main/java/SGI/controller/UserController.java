@@ -27,30 +27,30 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateDto userCreateDto) {
+    public ResponseEntity<UserResponseDto> createUser (@Valid @RequestBody UserCreateDto userCreateDto) {
         UserResponseDto user = userService.createUser(userCreateDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable UUID id) {
-        UserResponseDto user = userService.getUserById(id);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> getUserById (@PathVariable UUID userId) {
+        UserResponseDto user = userService.getUserById(userId);
 
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDto> updateUser (@PathVariable UUID id,
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> updateUserById (@PathVariable UUID userId,
                                                        @Valid @RequestBody UserUpdateDto userUpdateDto) {
-        UserResponseDto user = userService.updateUser(id, userUpdateDto);
+        UserResponseDto user = userService.updateUser(userId, userUpdateDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById (@PathVariable UUID id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUserById (@PathVariable UUID userId) {
+        userService.deleteUser(userId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -19,7 +19,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
 
     @Transactional
-    public void createProject(ProjectCreateDto projectCreateDto) {
+    public ProjectResponseDto createProject(ProjectCreateDto projectCreateDto) {
         // Crear el proyecto
         Project project = new Project();
         project.setProjectName(projectCreateDto.projectName());
@@ -27,6 +27,8 @@ public class ProjectService {
         project.setActive(true);
         // Guardar el proyecto
         projectRepository.save(project);
+        // Retornar el proyecto creado
+        return ProjectResponseDto.toProjectResponseDto(project);
     }
 
     public List<ProjectResponseDto> getAllProjects() {
@@ -48,7 +50,7 @@ public class ProjectService {
     }
 
     @Transactional
-    public void updateProject(UUID projectId, ProjectUpdateDto projectUpdateDto) {
+    public ProjectResponseDto updateProject(UUID projectId, ProjectUpdateDto projectUpdateDto) {
         // Encontrar el proyecto
         Project project = projectRepository.findProjectByIdProjectAndActiveTrue(projectId)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -57,6 +59,8 @@ public class ProjectService {
         // Actualizar los datos
         project.setProjectName(projectUpdateDto.projectName());
         project.setProjectDescription(projectUpdateDto.projectDescription());
+        // Retornar proyecto actualizado
+        return ProjectResponseDto.toProjectResponseDto(project);
     }
 
     @Transactional
