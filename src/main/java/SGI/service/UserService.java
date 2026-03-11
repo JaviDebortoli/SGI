@@ -21,7 +21,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void createUser (UserCreateDto userCreateDto) {
+    public UserResponseDto createUser (UserCreateDto userCreateDto) {
         // Verificar nombre de usuario
         if(userRepository.existsByUserName(userCreateDto.userName())){
             throw new IllegalArgumentException("El nombre de usuario ya existe");
@@ -38,6 +38,8 @@ public class UserService {
         user.setEnabled(true);
         // Guardar usuario
         userRepository.save(user);
+        // Retornar usuario creado
+        return UserResponseDto.toUserResponseDto(user);
     }
 
     public List<UserResponseDto> getAllUsers() {
@@ -58,7 +60,7 @@ public class UserService {
         return UserResponseDto.toUserResponseDto(user);
     }
 
-    public void updateUser(UUID idUser, UserUpdateDto userUpdateDto) {
+    public UserResponseDto updateUser(UUID idUser, UserUpdateDto userUpdateDto) {
         // Verificar nombre de usuario
         if(userRepository.existsByUserName(userUpdateDto.userName())){
             throw new IllegalArgumentException("El nombre de usuario ya existe");
@@ -76,6 +78,8 @@ public class UserService {
         user.setUserName(userUpdateDto.userName());
         user.setEmail(userUpdateDto.email());
         user.setPassword(passwordEncoder.encode(userUpdateDto.password()));
+        // Retornar usuario actualizado
+        return UserResponseDto.toUserResponseDto(user);
     }
 
     public void deleteUser(UUID idUser) {
