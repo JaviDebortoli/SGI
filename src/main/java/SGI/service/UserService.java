@@ -60,6 +60,7 @@ public class UserService {
         return UserResponseDto.toUserResponseDto(user);
     }
 
+    @Transactional
     public UserResponseDto updateUser(UUID idUser, UserUpdateDto userUpdateDto) {
         // Verificar nombre de usuario
         if(userRepository.existsByUserName(userUpdateDto.userName())){
@@ -82,6 +83,7 @@ public class UserService {
         return UserResponseDto.toUserResponseDto(user);
     }
 
+    @Transactional
     public void deleteUser(UUID idUser) {
         // Buscar usuario
         User user = userRepository.findByIdUserAndEnabledTrue(idUser)
@@ -92,3 +94,4 @@ public class UserService {
         user.setEnabled(false);
     }
 }
+//ffffffffffffeeeeeeeeeeeeerrrrrrrrr

@@ -52,6 +52,6 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById (@PathVariable UUID userId) {
         userService.deleteUser(userId);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

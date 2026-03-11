@@ -79,7 +79,7 @@ public class ProjectMemberService {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + projectId);
         }
         // Verificar si existe el usuario
-        if(!userRepository.existsByIdUserAndEnabledTrue(userId)) {
+        if(userRepository.existsByIdUserAndEnabledTrue(userId)) {
             throw new IllegalArgumentException("No se encontró el usuario con ID = " + userId);
         }
         // Encontrar la asignación
@@ -105,7 +105,7 @@ public class ProjectMemberService {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + projectId);
         }
         // Verificar si existe el usuario
-        if(!userRepository.existsByIdUserAndEnabledTrue(userId)) {
+        if(userRepository.existsByIdUserAndEnabledTrue(userId)) {
             throw new IllegalArgumentException("No se encontró el usuario con ID = " + userId);
         }
         // Encontrar la asignación
