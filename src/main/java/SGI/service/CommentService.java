@@ -24,8 +24,8 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void createComment (UUID issueId, CommentCreateDto commentCreateDto) {
-        // Obtener el Issue
+    public CommentResponseDto createComment (UUID issueId, CommentCreateDto commentCreateDto) {
+        // Obtener la incidencia
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No se encontró la incidencia con ID = " + issueId
@@ -35,17 +35,19 @@ public class CommentService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "No se encontró el usuario con ID = " + commentCreateDto.idUser()
                 ));
-        // Crear el Comment
+        // Crear el comentario
         Comment comment = new Comment();
         comment.setContent(commentCreateDto.content());
         comment.setIssue(issue);
         comment.setUser(user);
-        // Guardar el Comment
+        // Guardar el comentario
         commentRepository.save(comment);
+        // Retornar comentario
+        return CommentResponseDto.toCommentResponseDto(comment);
     }
 
     public List<CommentResponseDto> getCommentsForIssue(UUID issueId) {
-        // Retornar todos los Comments de un Issue
+        // Retornar todos los comentarios de una incidencia
         return commentRepository.findByIssueIdIssue(issueId)
                 .stream()
                 .map(CommentResponseDto::toCommentResponseDto)
