@@ -4,7 +4,7 @@ SGI es un backend REST para la gestion de incidencias orientado a proyectos, con
 
 ## Estado actual del proyecto
 
-El proyecto ya implementa un dominio funcional con persistencia JPA, validación de entradas, servicios transaccionales y una API REST organizada por recursos. El enfoque actual está centrado en el backend y no incluye frontend.
+El proyecto ya implementa un dominio funcional con persistencia JPA, validación de entradas, servicios transaccionales, autenticación HTTP Basic y una API REST organizada por recursos. El enfoque actual esta centrado en el backend y no incluye frontend.
 
 ## Capacidades implementadas
 
@@ -12,34 +12,34 @@ El proyecto ya implementa un dominio funcional con persistencia JPA, validación
 - Alta de usuarios.
 - Consulta de todos los usuarios habilitados.
 - Consulta de usuario por `UUID`.
-- Actualizacion de username, email y password.
-- Baja logica mediante `enabled = false`.
+- Actualización de username, email y password.
+- Baja lógica mediante `enabled = false`.
 - Cifrado de password con `BCryptPasswordEncoder`.
-- Validacion de unicidad de username y email.
+- Validación de unicidad de username y email.
 
 ### Proyectos
 - Alta de proyectos.
 - Consulta de todos los proyectos activos.
 - Consulta de proyecto por `UUID`.
-- Actualizacion de nombre y descripcion.
-- Baja logica mediante `active = false`.
+- Actualización de nombre y descripción.
+- Baja lógica mediante `active = false`.
 
 ### Miembros de proyecto
-- Asignacion de usuarios a proyectos con un rol.
+- Asignación de usuarios a proyectos con un rol.
 - Consulta de miembros activos por proyecto.
 - Cambio de rol dentro del proyecto.
-- Baja logica de membresia.
-- Restriccion de unicidad por combinacion proyecto/usuario.
+- Baja lógica de membresía.
+- Restricción de unicidad por combinación proyecto/usuario.
 
 ### Incidencias
-- Creacion de incidencias dentro de un proyecto.
+- Creación de incidencias dentro de un proyecto.
 - Consulta de incidencias por proyecto.
 - Consulta de incidencia por `UUID`.
 - Filtrado por estado.
 - Filtrado por prioridad.
-- Actualizacion de titulo, prioridad y tipo.
-- Reasignacion de responsable.
-- Asociacion explicita de reporter y assignee.
+- Actualización de título, prioridad y tipo.
+- Reasignación de responsable.
+- Asociación explicita de reporter y assignee.
 
 ### Flujo de estados
 - Estado inicial `OPEN`.
@@ -55,7 +55,7 @@ El proyecto ya implementa un dominio funcional con persistencia JPA, validación
 - Alta de comentarios por incidencia.
 - Consulta de comentarios de una incidencia.
 - Consulta del historial de estados de una incidencia.
-- Registro automatico de timestamps de creacion y actualizacion mediante JPA Auditing.
+- Registro automático de timestamps de creación y actualización mediante JPA Auditing.
 
 ## Modelo de dominio
 
@@ -118,7 +118,7 @@ Relaciones relevantes:
 - `POST /issues/{issueId}/comments`
 - `GET /issues/{issueId}/history`
 
-## Tecnologias utilizadas
+## Tecnologías utilizadas
 
 - Java 25
 - Spring Boot 4.0.3
@@ -142,19 +142,19 @@ Relaciones relevantes:
 - Identificadores `UUID` en todas las entidades principales.
 - Validación declarativa con anotaciones Bean Validation.
 - Convenciones REST para modelar recursos y subrecursos.
-- Auditoría automática con `@EnableJpaAuditing`, `@CreatedDate` y `@LastModifiedDate`.
+- Auditoria automática con `@EnableJpaAuditing`, `@CreatedDate` y `@LastModifiedDate`.
 
 ## Estructura del proyecto
 
 ```text
 src/main/java/SGI
-├── config        Configuración de seguridad
-├── controller    Endpoints REST
-├── domain        Entidades JPA y enums
-├── dto           DTOs de entrada y salida
-├── repository    Repositorios Spring Data JPA
-├── service       Lógica de negocio
-└── SgiApplication.java
+|-- config        Configuracion de seguridad
+|-- controller    Endpoints REST
+|-- domain        Entidades JPA y enums
+|-- dto           DTOs de entrada y salida
+|-- repository    Repositorios Spring Data JPA
+|-- service       Logica de negocio
+`-- SgiApplication.java
 ```
 
 ## Persistencia y base de datos
@@ -164,6 +164,9 @@ src/main/java/SGI
   - `DB_SGI_URL`
   - `DB_USER_NAME`
   - `DB_PASSWORD`
+- La autenticación de Spring Security también se configura por variables de entorno:
+  - `SGI_SECURITY_USERNAME`
+  - `SGI_SECURITY_PASSWORD`
 - `spring.jpa.hibernate.ddl-auto=validate`: Hibernate valida el esquema existente, pero no lo crea ni lo actualiza.
 - `spring.jpa.open-in-view=false`: la sesión JPA no permanece abierta durante la serialización HTTP.
 
@@ -172,15 +175,16 @@ src/main/java/SGI
 La aplicación incluye Spring Security y un `PasswordEncoder` BCrypt.
 
 Configuración actual:
-- Se define un usuario en memoria:
-  - username: `user`
-  - password: `1234`
-  - role: `USER`
+- Se define un usuario en memoria con credenciales leídas desde propiedades:
+  - `sgi.security.username=${SGI_SECURITY_USERNAME}`
+  - `sgi.security.password=${SGI_SECURITY_PASSWORD}`
+  - rol: `USER`
 - `httpBasic()` esta habilitado.
-- CSRF esta desactivado.
-- Todas las rutas estan actualmente permitidas con `anyRequest().permitAll()`.
+- CSRF está desactivado.
+- `/error` esta permitido sin autenticación.
+- Todas las demás solicitudes requieren autenticación con `anyRequest().authenticated()`.
 
-En otras palabras: existe infraestructura basica de seguridad, pero la API todavia no aplica autenticacion/autorizacion efectiva sobre los endpoints.
+En otras palabras: la API ya no expone sus endpoints públicamente por defecto. Cualquier acceso a recursos de negocio requiere autenticarse, aunque todavia no existe autorizacion por roles o permisos de dominio.
 
 ## Validaciones y reglas de negocio
 
@@ -198,13 +202,13 @@ El proyecto devuelve DTOs de salida que exponen información pensada para consum
 - nombres de proyecto en vez de solo IDs en incidencias
 - nombre del usuario reportero y asignado
 - nombre del rol en membresías
-- timestamps de creacion y actualizacion donde corresponde
+- timestamps de creación y actualización donde corresponde
 
 ## Como ejecutar el proyecto
 
 ### Requisitos
 - JDK 25
-- PostgreSQL con el esquema ya creado y cambiar `spring.jpa.hibernate.ddl-auto=create` en el application.properties para crear las entidades y relaciones
+- PostgreSQL con el esquema ya creado y compatible con las entidades
 - Maven (o usar el wrapper incluido)
 
 ### Variables de entorno
@@ -213,15 +217,17 @@ El proyecto devuelve DTOs de salida que exponen información pensada para consum
 $env:DB_SGI_URL="jdbc:postgresql://localhost:5432/sgi"
 $env:DB_USER_NAME="postgres"
 $env:DB_PASSWORD="tu_password"
+$env:SGI_SECURITY_USERNAME="user"
+$env:SGI_SECURITY_PASSWORD="1234"
 ```
 
-### Ejecucion
+### Ejecución
 
 ```powershell
 .\mvnw spring-boot:run
 ```
 
-La aplicacion levanta por defecto en `http://localhost:8080`.
+La aplicación se ejecuta por defecto en `http://localhost:8080`.
 
 ## Autor
 
