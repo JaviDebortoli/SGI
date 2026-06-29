@@ -70,11 +70,11 @@ public class IssueController {
         return  ResponseEntity.status(HttpStatus.OK).body(issue);
     }
 
-    @PatchMapping("/users/{userId}/issues/{id}/status")
+    @PatchMapping("/users/{userId}/issues/{issueId}/status")
     public  ResponseEntity<IssueResponseDto> changeIssueStatus (@PathVariable UUID userId,
                                                                 @PathVariable UUID issueId,
                                                                 @Valid @RequestBody IssueStatusUpdateDto issueStatusUpdateDto) {
-        IssueResponseDto issue = issueService.updateStatus(userId, issueId, issueStatusUpdateDto);
+        IssueResponseDto issue = issueService.updateStatus(issueId, userId, issueStatusUpdateDto);
 
         return  ResponseEntity.status(HttpStatus.OK).body(issue);
     }

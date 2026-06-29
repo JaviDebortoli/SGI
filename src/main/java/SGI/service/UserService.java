@@ -63,11 +63,11 @@ public class UserService {
     @Transactional
     public UserResponseDto updateUser(UUID idUser, UserUpdateDto userUpdateDto) {
         // Verificar nombre de usuario
-        if(userRepository.existsByUserName(userUpdateDto.userName())){
+        if(userRepository.existsByUserNameAndIdUserNot(userUpdateDto.userName(), idUser)){
             throw new IllegalArgumentException("El nombre de usuario ya existe");
         }
         // Verificar email
-        if(userRepository.existsByEmail(userUpdateDto.email())){
+        if(userRepository.existsByEmailAndIdUserNot(userUpdateDto.email(), idUser)){
             throw new IllegalArgumentException("El email ya está registrado");
         }
         // Buscar usuario

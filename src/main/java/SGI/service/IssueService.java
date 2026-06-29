@@ -68,7 +68,7 @@ public class IssueService {
 
     public List<IssueResponseDto> getIssueByProject(UUID idProject) {
         // Verificar si existe el proyecto
-        if(projectRepository.existsByIdProjectAndActiveTrue(idProject)) {
+        if(!projectRepository.existsByIdProjectAndActiveTrue(idProject)) {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + idProject);
         }
         // Retornar incidencias del proyecto

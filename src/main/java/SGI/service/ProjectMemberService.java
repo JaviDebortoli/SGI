@@ -62,7 +62,7 @@ public class ProjectMemberService {
 
     public List<ProjectMemberResponseDto> getAllProjectMembersFromProject(UUID projectId) {
         // Verificar si existe el proyecto
-        if(projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
+        if(!projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + projectId);
         }
         // Retornar todas las asignaciones a un proyecto
@@ -75,11 +75,11 @@ public class ProjectMemberService {
     @Transactional
     public ProjectMemberResponseDto updateRole (UUID projectId, UUID userId, ProjectMemberUpdateDto projectMemberUpdateDto) {
         // Verificar si existe el proyecto
-        if(projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
+        if(!projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + projectId);
         }
         // Verificar si existe el usuario
-        if(userRepository.existsByIdUserAndEnabledTrue(userId)) {
+        if(!userRepository.existsByIdUserAndEnabledTrue(userId)) {
             throw new IllegalArgumentException("No se encontró el usuario con ID = " + userId);
         }
         // Encontrar la asignación
@@ -101,11 +101,11 @@ public class ProjectMemberService {
     @Transactional
     public void deleteAssignedUser (UUID projectId, UUID userId) {
         // Verificar si existe el proyecto
-        if(projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
+        if(!projectRepository.existsByIdProjectAndActiveTrue(projectId)) {
             throw new IllegalArgumentException("No se encontró el proyecto con ID = " + projectId);
         }
         // Verificar si existe el usuario
-        if(userRepository.existsByIdUserAndEnabledTrue(userId)) {
+        if(!userRepository.existsByIdUserAndEnabledTrue(userId)) {
             throw new IllegalArgumentException("No se encontró el usuario con ID = " + userId);
         }
         // Encontrar la asignación
