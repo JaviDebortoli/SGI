@@ -43,6 +43,15 @@ Classic layered: `Controller → Service → Repository`. Packages: `controller`
 
 **Security**: Single in-memory user via `SecurityConfig`. Application `User` entities are separate from Spring Security — there is no per-user authentication yet; the API is protected by a single shared credential.
 
+## Documentation
+
+The specification and user stories live one level up from this directory:
+
+- `../SPEC.md` — full technical specification organized by resource (endpoints, schemas, business rules).
+- `../STORIES.md` — 21 user stories in 5 epics, written in business language without technical references.
+
+Both files must be kept in sync: changes to the code that affect behavior, endpoints, or business rules should be reflected in both documents.
+
 ## Fixed bugs
 
 All three bugs identified on initial exploration have been resolved:
